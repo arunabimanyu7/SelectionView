@@ -1,18 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.arun.selectionview.SelectionView
+        android:id="@+id/selectionview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        android:tag="cash"
+        bind:layout_constraintBottom_toBottomOf="parent"
+        bind:layout_constraintEnd_toEndOf="parent"
+        bind:layout_constraintStart_toStartOf="parent"
+        bind:layout_constraintTop_toTopOf="parent"
+        bind:selectedId="@id/card">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="start"
+            android:padding="8dp"
+            android:tag="cash"
+            android:text="Online payment"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            bind:backgroundTint="@color/black"
+            bind:cornerRadius="8dp"
+            bind:icon="@drawable/payment_selector"
+            android:background="@color/black"
+            bind:iconPadding="16dp"
+            bind:iconTint="@color/colorAccent"
+            bind:strokeColor="@color/black" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cash"
+            style="@style/MaterialButtonStyleOutline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="start"
+            android:padding="8dp"
+            android:tag="cash"
+            android:text="Cash After Service"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            bind:backgroundTint="@color/black"
+            android:background="@color/black"
+            bind:cornerRadius="8dp"
+            bind:icon="@drawable/payment_selector"
+            bind:iconPadding="16dp"
+            bind:iconTint="@color/colorAccent"
+            bind:strokeColor="@color/black" />
+
+    </com.arun.selectionview.SelectionView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

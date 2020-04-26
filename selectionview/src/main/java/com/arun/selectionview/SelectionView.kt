@@ -17,26 +17,19 @@ import androidx.annotation.IdRes
 class SelectionView : LinearLayout,
     ViewGroup.OnHierarchyChangeListener, View.OnClickListener {
 
-    private var mCheckedId: Int = 1
+    private var selectedViewId: Int = View.NO_ID
 
-    @get:IdRes
-    var checkedRadioButtonId = -1
-        private set
     private val idList = ArrayList<Int>()
-    private var tagChangeListener: TagChangeListener? = null
-    private var mInitialCheckedId = View.NO_ID
-
-    private var mProtectFromCheckedChange = false
-
+    private var itemSelectionListener: ItemSelectionListener? = null
+    private var onBind = false
+    private var selectionMode: Int = SelectionMode.SINGLE.ordinal
     override fun onFinishInflate() {
         super.onFinishInflate()
-        // checks the appropriate radio button as requested in the XML file
-        if (mCheckedId != -1) {
-            mProtectFromCheckedChange = true
-            setCheckedStateForView(mCheckedId, true)
-            mProtectFromCheckedChange = false
-
-            setCheckedId(mCheckedId)
+        if (selectedViewId != -1) {
+            onBind = true
+            setSelectedStateForView(selectedViewId, true)
+            onBind = false
+            setCheckedId(selectedViewId)
         }
     }
 
@@ -51,11 +44,14 @@ class SelectionView : LinearLayout,
         if (typeAttributeSet.hasValue(R.styleable.SelectionView_selectedId)) {
             val value =
                 typeAttributeSet.getResourceId(R.styleable.SelectionView_selectedId, View.NO_ID)
-            mCheckedId = value
-            mInitialCheckedId = value
+            selectedViewId = value
         }
-
         val index = typeAttributeSet.getInt(R.styleable.SelectionView_orientation, VERTICAL)
+        selectionMode =
+            typeAttributeSet.getInt(
+                R.styleable.SelectionView_selectionMode,
+                SelectionMode.SINGLE.ordinal
+            )
         orientation = index
         typeAttributeSet.recycle()
         setOnHierarchyChangeListener(this)
@@ -83,7 +79,7 @@ class SelectionView : LinearLayout,
         )
     }
 
-    private fun setCheckedStateForView(viewId: Int, state: Boolean) {
+    private fun setSelectedStateForView(viewId: Int, state: Boolean) {
         val checkedView = findViewById<View>(viewId)
         if (checkedView != null) {
             checkedView.isActivated = state
@@ -92,33 +88,41 @@ class SelectionView : LinearLayout,
 
     override fun onClick(v: View?) {
         if (v != null) {
-            tag = v.tag
-            tagChangeListener?.onTagChanged(v.tag)
+            val changed = id != selectedViewId
+            if (!changed) {
+                itemSelectionListener?.onItemReSelected(v.tag, v, v.id, true)
+            } else {
+                tag = v.tag
+                val isSelected = selectedViewId == v.id
+                if (onBind) {
+                    return
+                }
+                onBind = true
+                if (selectedViewId != -1) {
+                    setSelectedStateForView(selectedViewId, false)
+                }
+                onBind = false
+                val id: Int? = v?.id
+                id?.let { setCheckedId(it) }
+                itemSelectionListener?.onItemSelected(v.tag, v, v.id, true)
+            }
+
         }
-        if (mProtectFromCheckedChange) {
-            return
-        }
-        mProtectFromCheckedChange = true
-        if (mCheckedId != -1) {
-            setCheckedStateForView(mCheckedId, false)
-        }
-        mProtectFromCheckedChange = false
-        val id: Int? = v?.id
-        id?.let { setCheckedId(it) }
+
     }
 
-    fun unCheck() {
-        findViewById<View>(mCheckedId).isActivated = false
+    private fun unCheck() {
+        findViewById<View>(selectedViewId).isActivated = false
     }
 
     private fun setCheckedId(@IdRes id: Int) {
-        val changed = id != mCheckedId
-        mCheckedId = id
+        val changed = id != selectedViewId
+        selectedViewId = id
         if (changed) {
             unCheckAllId()
-            setCheckedStateForView(mCheckedId, true)
+            setSelectedStateForView(selectedViewId, true)
         } else {
-            setCheckedStateForView(mCheckedId, true)
+            setSelectedStateForView(selectedViewId, true)
         }
     }
 
@@ -128,12 +132,21 @@ class SelectionView : LinearLayout,
         }
     }
 
-    fun setTagChangeLisener(tagChangeListener: TagChangeListener) {
-        this.tagChangeListener = tagChangeListener
+    fun setOnItemSelectionListener(tagChangeListener: ItemSelectionListener) {
+        this.itemSelectionListener = tagChangeListener
+    }
+
+    fun setSelectedView(selectedView: View) {
+        onClick(selectedView)
     }
 
 
-    interface TagChangeListener {
-        fun onTagChanged(value: Any)
+    interface ItemSelectionListener {
+        fun onItemSelected(tag: Any?, view: View, id: Int, isSelected: Boolean)
+        fun onItemReSelected(tag: Any?, view: View, id: Int, isSelected: Boolean)
+    }
+
+    enum class SelectionMode {
+        SINGLE, SINGLE_OR_EMPTY
     }
 }

@@ -11,6 +11,13 @@
 
             <enum name="vertical" value="1" />
         </attr>
+
+        <attr name="selectionMode">
+
+            <enum name="single" value="0" />
+
+            <enum name="singleorempty" value="1" />
+        </attr>
     </declare-styleable>
 
 
