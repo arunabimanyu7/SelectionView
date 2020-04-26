@@ -15,8 +15,8 @@ class MainActivity : AppCompatActivity(), SelectionView.ItemSelectionListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val selectionView = findViewById<SelectionView>(R.id.selectionview)
-        val cardView = findViewById<MaterialButton>(R.id.card)
         val cashView = findViewById<MaterialButton>(R.id.cash)
+        //Programatically select your view
         selectionView.setSelectedView(cashView)
         selectionView.setOnItemSelectionListener(this)
     }
