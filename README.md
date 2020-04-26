@@ -100,11 +100,11 @@ Add it in your root build.gradle at the end of repositories:
   * You can specify selected view to selection view
      by adding this attribte
      
-     bind:selectedId="@id/id_of_your_view"
+        bind:selectedId="@id/id_of_your_view"
      
      or programatically select your view at run time
      
-     selectionView.setSelectedView(yourView)
+        selectionView.setSelectedView(yourView)
     
   * Add ItemSelectionListener to selection view class to get callbacks from action
     
