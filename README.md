@@ -134,9 +134,23 @@ Add it in your root build.gradle at the end of repositories:
     
   * Add ItemSelectionListener to selection view class to get callbacks from action
     
-          fun onItemSelected(tag: Any?, view: View, id: Int, isSelected: Boolean)
-          fun onItemReSelected(tag: Any?, view: View, id: Int, isSelected: Boolean)
+``
+    fun onItemSelected(
+        tag: Any?,
+        view: View,
+        id: Int,
+        isSelected: Boolean,
+        selectedViews: HashSet<View>
+    )
 
+    fun onItemReSelected(
+        tag: Any?, view: View, id: Int, isSelected: Boolean,
+        selectedViews: HashSet<View>
+    )
+
+    fun onSelectedViewListChanged(selectedViews: List<View>, selectedData: List<Any>)
+
+```
 
 
 Status
