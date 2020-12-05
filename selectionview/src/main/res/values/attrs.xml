@@ -11,7 +11,7 @@
 
             <enum name="vertical" value="1" />
         </attr>
-
+        <attr name="defaultTag" format="string" />
         <attr name="selectionMode">
 
             <enum name="single" value="0" />

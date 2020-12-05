@@ -2,27 +2,34 @@ package com.arun.selectionview
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RadioGroup
 import androidx.annotation.IdRes
+import kotlin.math.roundToInt
 
 
 /*
-@Author cr7
+@Author Arunachalam K
 @CreatedOn 1/31/2020
 */
 
 class SelectionView : LinearLayout,
-    ViewGroup.OnHierarchyChangeListener, View.OnClickListener {
+    ViewGroup.OnHierarchyChangeListener {
 
-    private var selectedViewId: Int = View.NO_ID
+    private var selectedViewId: Int = -1
 
     private val idList = ArrayList<Int>()
-    private var itemSelectionListener: ItemSelectionListener? = null
+
+    private var itemSelectionListener: ViewSelectionListener? = null
+
     private var onBind = false
+
     private var selectionMode: Int = SelectionMode.SINGLE.ordinal
+
+    private var defaultTag: Any? = null
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         if (selectedViewId != -1) {
@@ -46,6 +53,12 @@ class SelectionView : LinearLayout,
                 typeAttributeSet.getResourceId(R.styleable.SelectionView_selectedId, View.NO_ID)
             selectedViewId = value
         }
+
+        if (typeAttributeSet.hasValue(R.styleable.SelectionView_defaultTag)) {
+            defaultTag =
+                typeAttributeSet.getString(R.styleable.SelectionView_defaultTag)
+
+        }
         val index = typeAttributeSet.getInt(R.styleable.SelectionView_orientation, VERTICAL)
         selectionMode =
             typeAttributeSet.getInt(
@@ -58,24 +71,28 @@ class SelectionView : LinearLayout,
     }
 
     override fun onChildViewRemoved(parent: View?, child: View?) {
-        child?.setOnClickListener(null)
+
         child?.id?.let { idList.remove(it) }
     }
 
     override fun onChildViewAdded(parent: View?, child: View?) {
         var id = child!!.id
+
         if (id == View.NO_ID) {
             id = View.generateViewId()
             child.id = id
+            if (child.tag == null) {
+                if (defaultTag != null)
+                    child.tag = defaultTag
+            }
         }
         idList.add(child.id)
-        child.setOnClickListener(this)
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams? {
         return LayoutParams(
-            RadioGroup.LayoutParams.WRAP_CONTENT,
-            RadioGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
 
@@ -86,14 +103,33 @@ class SelectionView : LinearLayout,
         }
     }
 
-    override fun onClick(v: View?) {
-        if (v != null) {
-            val changed = id != selectedViewId
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null) {
+            val x = event.x.roundToInt().toInt()
+            val y = event.y.roundToInt().toInt()
+            for (i in 0 until childCount) {
+                val child = getChildAt(i)
+                if (x > child.left && x < child.right && y > child.top && y < child.bottom) {
+                    //touch is within this child
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        onChildViewIsClicked(child)
+                        return true
+                    }
+                }
+            }
+        }
+
+        return true
+    }
+
+    private fun onChildViewIsClicked(child: View?) {
+        if (child != null) {
+            val changed = child.id != selectedViewId
             if (!changed) {
-                itemSelectionListener?.onItemReSelected(v.tag, v, v.id, true)
+                itemSelectionListener?.onItemReSelected(child.tag, child, child.id, true)
             } else {
-                tag = v.tag
-                val isSelected = selectedViewId == v.id
+                tag = child.tag
+                val isSelected = selectedViewId == child.id
                 if (onBind) {
                     return
                 }
@@ -102,13 +138,16 @@ class SelectionView : LinearLayout,
                     setSelectedStateForView(selectedViewId, false)
                 }
                 onBind = false
-                val id: Int? = v?.id
+                val id: Int? = child?.id
                 id?.let { setCheckedId(it) }
-                itemSelectionListener?.onItemSelected(v.tag, v, v.id, true)
+                itemSelectionListener?.onItemSelected(child.tag, child, child.id, true)
             }
 
         }
+    }
 
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        return true
     }
 
     private fun unCheck() {
@@ -132,21 +171,14 @@ class SelectionView : LinearLayout,
         }
     }
 
-    fun setOnItemSelectionListener(tagChangeListener: ItemSelectionListener) {
+    fun setOnItemSelectionListener(tagChangeListener: ViewSelectionListener) {
         this.itemSelectionListener = tagChangeListener
     }
 
     fun setSelectedView(selectedView: View) {
-        onClick(selectedView)
+        onChildViewIsClicked(selectedView)
     }
 
 
-    interface ItemSelectionListener {
-        fun onItemSelected(tag: Any?, view: View, id: Int, isSelected: Boolean)
-        fun onItemReSelected(tag: Any?, view: View, id: Int, isSelected: Boolean)
-    }
 
-    enum class SelectionMode {
-        SINGLE, SINGLE_OR_EMPTY
-    }
 }

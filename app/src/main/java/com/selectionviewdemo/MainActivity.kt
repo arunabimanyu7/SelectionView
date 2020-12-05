@@ -4,29 +4,30 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.arun.selectionview.ViewSelectionListener
 import com.arun.selectionview.SelectionView
-import com.google.android.material.button.MaterialButton
-import kotlin.math.log
 
-class MainActivity : AppCompatActivity(), SelectionView.ItemSelectionListener {
+class MainActivity : AppCompatActivity(), ViewSelectionListener {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val selectionView = findViewById<SelectionView>(R.id.selectionview)
-        val cashView = findViewById<MaterialButton>(R.id.cash)
-        //Programatically select your view
-        selectionView.setSelectedView(cashView)
         selectionView.setOnItemSelectionListener(this)
+
     }
 
     override fun onItemSelected(tag: Any?, view: View, id: Int, isSelected: Boolean) {
-        Log.d("selectionView","is selected $isSelected id $id")
+        Log.d("selectionView", "is Reselected $isSelected id $id tag $tag")
     }
 
     override fun onItemReSelected(tag: Any?, view: View, id: Int, isSelected: Boolean) {
-        Log.d("selectionView","is selected $isSelected id $id")
+        Log.d("selectionView", "is selected $isSelected id $id tag $tag")
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 
 }
