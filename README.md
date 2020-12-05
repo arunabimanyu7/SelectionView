@@ -49,7 +49,7 @@ Add it in your root build.gradle at the end of repositories:
     
 ```
     
-     <com.arun.selectionview.SelectionView
+      <com.arun.selectionview.SelectionView
         android:id="@+id/selectionview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,48 +57,105 @@ Add it in your root build.gradle at the end of repositories:
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:orientation="vertical"
-        android:tag="cash"
         bind:layout_constraintBottom_toBottomOf="parent"
         bind:layout_constraintEnd_toEndOf="parent"
         bind:layout_constraintStart_toStartOf="parent"
         bind:layout_constraintTop_toTopOf="parent"
-        bind:selectedId="@id/card">
+        bind:defaultTag="cash"
+        bind:selectionMode="single">
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:background="@color/black"
             android:gravity="start"
             android:padding="8dp"
-            android:tag="cash"
-            android:text="Online payment"
+            android:tag="Monday"
+            android:text="Monday"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="14sp"
             bind:backgroundTint="@color/black"
             bind:cornerRadius="8dp"
             bind:icon="@drawable/payment_selector"
-            android:background="@color/black"
             bind:iconPadding="16dp"
             bind:iconTint="@color/colorAccent"
             bind:strokeColor="@color/black" />
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cash"
             style="@style/MaterialButtonStyleOutline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:background="@color/black"
             android:gravity="start"
             android:padding="8dp"
-            android:tag="cash"
-            android:text="Cash After Service"
+            android:tag="Tuesday"
+            android:text="Tuesday"
             android:textColor="@color/white"
             android:textSize="14sp"
             bind:backgroundTint="@color/black"
+            bind:cornerRadius="8dp"
+            bind:icon="@drawable/payment_selector"
+            bind:iconPadding="16dp"
+            bind:iconTint="@color/colorAccent"
+            bind:strokeColor="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/MaterialButtonStyleOutline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:background="@color/black"
+            android:gravity="start"
+            android:padding="8dp"
+            android:tag="Wednesday"
+            android:text="Wednesday"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            bind:backgroundTint="@color/black"
+            bind:cornerRadius="8dp"
+            bind:icon="@drawable/payment_selector"
+            bind:iconPadding="16dp"
+            bind:iconTint="@color/colorAccent"
+            bind:strokeColor="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/MaterialButtonStyleOutline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/black"
+            android:gravity="start"
+            android:padding="8dp"
+            android:tag="Thursday"
+            android:text="Thursday"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            bind:backgroundTint="@color/black"
+            bind:cornerRadius="8dp"
+            bind:icon="@drawable/payment_selector"
+            bind:iconPadding="16dp"
+            bind:iconTint="@color/colorAccent"
+            bind:strokeColor="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+
+            style="@style/MaterialButtonStyleOutline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/black"
+            android:gravity="start"
+            android:padding="8dp"
+            android:tag="Friday"
+            android:text="Friday"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            bind:backgroundTint="@color/black"
             bind:cornerRadius="8dp"
             bind:icon="@drawable/payment_selector"
             bind:iconPadding="16dp"
@@ -106,6 +163,7 @@ Add it in your root build.gradle at the end of repositories:
             bind:strokeColor="@color/black" />
 
     </com.arun.selectionview.SelectionView>
+
     
    ```
 
