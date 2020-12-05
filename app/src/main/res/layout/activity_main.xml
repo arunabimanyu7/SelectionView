@@ -19,7 +19,7 @@
         bind:layout_constraintStart_toStartOf="parent"
         bind:layout_constraintTop_toTopOf="parent"
         bind:defaultTag="cash"
-        bind:selectionMode="multi">
+        bind:selectionMode="single">
 
 
         <com.google.android.material.button.MaterialButton
@@ -29,8 +29,9 @@
             android:background="@color/black"
             android:gravity="start"
             android:padding="8dp"
-            android:tag="cash"
-            android:text="Hello"
+            android:tag="Monday"
+            android:text="Monday"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="14sp"
             bind:backgroundTint="@color/black"
@@ -49,8 +50,8 @@
             android:background="@color/black"
             android:gravity="start"
             android:padding="8dp"
-            android:tag="cash"
-            android:text="Cash After Service"
+            android:tag="Tuesday"
+            android:text="Tuesday"
             android:textColor="@color/white"
             android:textSize="14sp"
             bind:backgroundTint="@color/black"
@@ -68,8 +69,8 @@
             android:background="@color/black"
             android:gravity="start"
             android:padding="8dp"
-            android:tag="cash"
-            android:text="Cash After Service"
+            android:tag="Wednesday"
+            android:text="Wednesday"
             android:textColor="@color/white"
             android:textSize="14sp"
             bind:backgroundTint="@color/black"
@@ -87,8 +88,8 @@
             android:background="@color/black"
             android:gravity="start"
             android:padding="8dp"
-            android:tag="cash"
-            android:text="Cash After Service"
+            android:tag="Thursday"
+            android:text="Thursday"
             android:textColor="@color/white"
             android:textSize="14sp"
             bind:backgroundTint="@color/black"
@@ -107,8 +108,8 @@
             android:background="@color/black"
             android:gravity="start"
             android:padding="8dp"
-            android:tag="cash"
-            android:text="Cash After Service"
+            android:tag="Friday"
+            android:text="Friday"
             android:textColor="@color/white"
             android:textSize="14sp"
             bind:backgroundTint="@color/black"
@@ -119,6 +120,16 @@
             bind:strokeColor="@color/black" />
 
     </com.arun.selectionview.SelectionView>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Single selection Mode"
+        bind:layout_constraintBottom_toTopOf="@+id/selectionview"
+        bind:layout_constraintEnd_toEndOf="parent"
+        bind:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
