@@ -126,13 +126,18 @@ Add it in your root build.gradle at the end of repositories:
 
 
 
-License
+Status
 -------
 
 Version 1.2.0 is now released and stable. Updates are released periodically with new features and bug fixes.
 
 Comments/bugs/questions/pull requests are always welcome! Please read CONTRIBUTING.md on how to report issues.
   
+
+Author
+------
+
+Arunachalam K - @arunabimanyu7 on GitHub
     
 License
 -------
