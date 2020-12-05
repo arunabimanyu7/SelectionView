@@ -123,6 +123,15 @@ Add it in your root build.gradle at the end of repositories:
     
           fun onItemSelected(tag: Any?, view: View, id: Int, isSelected: Boolean)
           fun onItemReSelected(tag: Any?, view: View, id: Int, isSelected: Boolean)
+
+
+
+License
+-------
+
+Version 1.2.0 is now released and stable. Updates are released periodically with new features and bug fixes.
+
+Comments/bugs/questions/pull requests are always welcome! Please read CONTRIBUTING.md on how to report issues.
   
     
 License
