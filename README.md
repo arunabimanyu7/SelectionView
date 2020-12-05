@@ -133,8 +133,10 @@ Add it in your root build.gradle at the end of repositories:
         selectionView.setSelectedView(yourView)
     
   * Add ItemSelectionListener to selection view class to get callbacks from action
-    
-``
+   
+   
+```
+
     fun onItemSelected(
         tag: Any?,
         view: View,
