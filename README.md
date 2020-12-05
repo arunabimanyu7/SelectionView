@@ -43,7 +43,10 @@ Add it in your root build.gradle at the end of repositories:
  * **How do I use SelectionView?**:
     Simple use cases will look something like this:
     
-      * Add your your any views inside selectionView class 
+       Add your your any views inside selectionView class 
+      
+```
+    
      <com.arun.selectionview.SelectionView
         android:id="@+id/selectionview"
         android:layout_width="match_parent"
@@ -102,8 +105,12 @@ Add it in your root build.gradle at the end of repositories:
 
     </com.arun.selectionview.SelectionView>
     
+   ```
+
+    
    Add selector for your drawables
     
+    ```
     <?xml version="1.0" encoding="utf-8"?>
     <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/payment_unchecked" android:state_activated="false" />
@@ -112,7 +119,8 @@ Add it in your root build.gradle at the end of repositories:
     <item android:drawable="@drawable/payment_checked" android:state_checked="true" />
     </selector>
     
-    
+    ```
+
   * You can specify selected view to selection view
      by adding this attribte
      
