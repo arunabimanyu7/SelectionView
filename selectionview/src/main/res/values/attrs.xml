@@ -16,7 +16,7 @@
 
             <enum name="single" value="0" />
 
-            <enum name="singleorempty" value="1" />
+            <enum name="multi" value="1" />
         </attr>
     </declare-styleable>
 

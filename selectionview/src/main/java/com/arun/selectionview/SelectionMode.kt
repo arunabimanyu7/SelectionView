@@ -6,5 +6,5 @@ package com.arun.selectionview
 */
 
 enum class SelectionMode {
-    SINGLE, SINGLE_OR_EMPTY
+    SINGLE, MULTI
 }

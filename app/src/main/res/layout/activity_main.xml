@@ -19,7 +19,7 @@
         bind:layout_constraintStart_toStartOf="parent"
         bind:layout_constraintTop_toTopOf="parent"
         bind:defaultTag="cash"
-        bind:selectionMode="single">
+        bind:selectionMode="multi">
 
 
         <com.google.android.material.button.MaterialButton

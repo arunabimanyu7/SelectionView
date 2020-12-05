@@ -22,13 +22,15 @@ class SelectionView : LinearLayout,
 
     private val idList = ArrayList<Int>()
 
-    private var itemSelectionListener: ViewSelectionListener? = null
+    private var viewSingleSelectionListener: ViewSingleSelectionListener? = null
 
     private var onBind = false
 
     private var selectionMode: Int = SelectionMode.SINGLE.ordinal
 
     private var defaultTag: Any? = null
+
+    private var selectedViews = HashSet<View>()
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -71,13 +73,11 @@ class SelectionView : LinearLayout,
     }
 
     override fun onChildViewRemoved(parent: View?, child: View?) {
-
         child?.id?.let { idList.remove(it) }
     }
 
     override fun onChildViewAdded(parent: View?, child: View?) {
         var id = child!!.id
-
         if (id == View.NO_ID) {
             id = View.generateViewId()
             child.id = id
@@ -105,8 +105,8 @@ class SelectionView : LinearLayout,
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null) {
-            val x = event.x.roundToInt().toInt()
-            val y = event.y.roundToInt().toInt()
+            val x = event.x.roundToInt()
+            val y = event.y.roundToInt()
             for (i in 0 until childCount) {
                 val child = getChildAt(i)
                 if (x > child.left && x < child.right && y > child.top && y < child.bottom) {
@@ -123,46 +123,92 @@ class SelectionView : LinearLayout,
     }
 
     private fun onChildViewIsClicked(child: View?) {
+
         if (child != null) {
-            val changed = child.id != selectedViewId
-            if (!changed) {
-                itemSelectionListener?.onItemReSelected(child.tag, child, child.id, true)
+
+            val isViewSelected = when (selectionMode) {
+                SelectionMode.MULTI.ordinal -> {
+                    selectedViews.contains(child)
+                }
+                SelectionMode.SINGLE.ordinal -> {
+                    child.id == selectedViewId
+                }
+                else -> throw  IllegalStateException("Invalid Selection Mode")
+            }
+
+            if (isViewSelected) {
+                if (selectionMode == SelectionMode.MULTI.ordinal) {
+                    unCheck(child)
+                }
+                viewSingleSelectionListener?.onItemReSelected(
+                    child.tag,
+                    child,
+                    child.id,
+                    true,
+                    selectedViews = selectedViews
+                )
+                viewSingleSelectionListener?.onSelectedViewListChanged(
+                    selectedViews.toList(),
+                    selectedViews.map {
+                        it.tag
+                    })
             } else {
                 tag = child.tag
-                val isSelected = selectedViewId == child.id
                 if (onBind) {
                     return
                 }
                 onBind = true
-                if (selectedViewId != -1) {
+                if (selectedViewId != -1 && selectionMode == SelectionMode.SINGLE.ordinal) {
                     setSelectedStateForView(selectedViewId, false)
                 }
                 onBind = false
                 val id: Int? = child?.id
                 id?.let { setCheckedId(it) }
-                itemSelectionListener?.onItemSelected(child.tag, child, child.id, true)
+                viewSingleSelectionListener?.onItemSelected(
+                    child.tag,
+                    child,
+                    child.id,
+                    true,
+                    selectedViews
+                )
+                viewSingleSelectionListener?.onSelectedViewListChanged(
+                    selectedViews.toList(),
+                    selectedViews.map {
+                        it.tag
+                    })
             }
 
+
         }
+
+
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         return true
     }
 
-    private fun unCheck() {
-        findViewById<View>(selectedViewId).isActivated = false
+    private fun unCheck(child: View) {
+        selectedViews.remove(child)
+        child.isActivated = false
     }
 
     private fun setCheckedId(@IdRes id: Int) {
         val changed = id != selectedViewId
+        val selectedView = findViewById<View>(id)
         selectedViewId = id
-        if (changed) {
-            unCheckAllId()
-            setSelectedStateForView(selectedViewId, true)
+        selectedViews.add(selectedView)
+        if (selectionMode == SelectionMode.SINGLE.ordinal) {
+            if (changed) {
+                unCheckAllId()
+                setSelectedStateForView(selectedViewId, true)
+            } else {
+                setSelectedStateForView(selectedViewId, true)
+            }
         } else {
             setSelectedStateForView(selectedViewId, true)
         }
+
     }
 
     private fun unCheckAllId() {
@@ -171,8 +217,8 @@ class SelectionView : LinearLayout,
         }
     }
 
-    fun setOnItemSelectionListener(tagChangeListener: ViewSelectionListener) {
-        this.itemSelectionListener = tagChangeListener
+    fun addAddSelectionListner(singleSelectionListener: ViewSingleSelectionListener) {
+        this.viewSingleSelectionListener = singleSelectionListener
     }
 
     fun setSelectedView(selectedView: View) {
@@ -180,5 +226,5 @@ class SelectionView : LinearLayout,
     }
 
 
-
 }
+
