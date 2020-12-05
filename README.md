@@ -43,8 +43,6 @@ Add it in your root build.gradle at the end of repositories:
  * **How do I use SelectionView?**:
     Simple use cases will look something like this:
     
-       Add your your any views inside selectionView class 
-      
 ```
     
      <com.arun.selectionview.SelectionView
