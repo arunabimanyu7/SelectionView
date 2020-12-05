@@ -115,7 +115,7 @@ Add it in your root build.gradle at the end of repositories:
 License
 -------
 
-    Copyright 2014 - 2020 Henning Dodenhof
+    Copyright 2014 - 2020 Arunachalam k
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
