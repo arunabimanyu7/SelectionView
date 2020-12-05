@@ -2,7 +2,20 @@
 
 [![](https://jitpack.io/v/arunabimanyu7/SelectionView.svg)](https://jitpack.io/#arunabimanyu7/SelectionView)
 
-SelectionView is a utilty class inherited from radio group class.this class takes care of setting selection state of that view when particular item is clicked
+SelectionView is a utilty class that takes care of setting selection state of that view when particular item is clicked and it will return return the selected items thorugh callback method.
+
+
+Single selection mode
+-------
+
+![Single selection mode](https://raw.github.com/arunabimanyu7/SelectionView/master/screenshot/selection_view_single_state.gif)
+
+
+Multi selection mode
+-------
+
+![Multi selection mode](https://raw.github.com/arunabimanyu7/SelectionView/master/screenshot/selection_view_multi_state.gif)
+
 
 
 To get a Git project into your build:
